@@ -69,5 +69,49 @@ class CartItem(models.Model):
     class Meta:
         db_table = 'cart_item'
 
+# ORDER
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=20, default="Pending")
 
+    def __str__(self):
+        return self.user
 
+    class Meta:
+        db_table = 'order'
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.order
+
+    class Meta:
+        db_table = 'order_item'
+
+# PAYMENT
+class Payment(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    payment_method = models.CharField(max_length=50)
+    status = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.order
+
+    class Meta:
+        db_table = 'payment'
+
+# SHIPPING
+class Shipping(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    address = models.TextField()
+    status = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.order
+
+    class Meta:
+        db_table = 'shipping'
