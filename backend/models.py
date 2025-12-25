@@ -115,3 +115,51 @@ class Shipping(models.Model):
 
     class Meta:
         db_table = 'shipping'
+
+# REVIEW
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+    comment = models.TextField()
+
+    def __str__(self):
+        return self.product
+
+    class Meta:
+        db_table = 'review'
+
+# WISHLIST
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user
+
+    class Meta:
+        db_table = 'wishlist'
+
+# COUPON
+class Coupon(models.Model):
+    code = models.CharField(max_length=20)
+    discount = models.IntegerField()
+    expiry_date = models.DateField()
+
+    def __str__(self):
+        return self.code
+
+    class Meta:
+        db_table = 'coupon'
+
+# NOTIFICATION
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user
+
+    class Meta:
+        db_table = 'notification'
