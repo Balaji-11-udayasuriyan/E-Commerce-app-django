@@ -52,7 +52,22 @@ class Inventory(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.user
+
+    class Meta:
+        db_table = 'cart'
+
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.cart
+
+    class Meta:
+        db_table = 'cart_item'
+
+
+
